@@ -1,0 +1,36 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="card">
+                <div class="card-body text-center">
+                    <span class="titulo">Listado de pokemons</span>
+                    <button routerLink="/crear-producto" class="btn btn-success float-end">Nuevo</button>
+                </div>
+                <table *ngIf="listPokemon.length > 0" class="table" class="table table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Imagen</th>
+                            <th scope="col">Ataque</th>
+                            <th scope="col">Defensa</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let pokemon of listPokemon;let index=index">
+                        <tr>
+                            <td>{{pokemon.name}}</td>
+                            <td>   <img class="img-thumbnail size-image" [src]="pokemon.image"></td>
+                            <td>{{pokemon.attack}}</td>
+                            <td>{{pokemon.defense}}</td>
+                            <td><i class="fa-solid fa-pen-to-square"></i></td>
+                            <td><i class="fa-solid fa-trash"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5 *ngIf="listPokemon.length === 0">No hay pokemons para mostrar</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<
