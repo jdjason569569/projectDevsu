@@ -6,6 +6,7 @@ import { Pokemon } from '../models/pokemon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PokemonService } from '../services/pokemon.service';
 import { Input } from '@angular/core';
+import { MessagesService } from '../services/messages.service';
 
 @Component({
   selector: 'app-create-pokemon',
@@ -19,7 +20,7 @@ export class CreatePokemonComponent implements OnInit, OnChanges {
   @Input() idPokemon!: number;
   @Output() cancel: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private fb: FormBuilder, private pokemonService: PokemonService) { }
+  constructor(private fb: FormBuilder, private pokemonService: PokemonService, private messageService : MessagesService) { }
   
 
   ngOnInit(): void {
@@ -90,6 +91,7 @@ export class CreatePokemonComponent implements OnInit, OnChanges {
 
   createPokemon(pokemon : Pokemon){
     this.pokemonService.createPokemon(pokemon).subscribe(()=>{
+      this.messageService.messageOk('Agregar', 'Se creó correctamente');
     this.eventClose();
     }, (error)=>{
       console.log(error);
@@ -99,6 +101,7 @@ export class CreatePokemonComponent implements OnInit, OnChanges {
 
   updatePokemon(pokemon : Pokemon, id: number){
     this.pokemonService.updatePokemon(pokemon, id).subscribe(()=>{
+      this.messageService.messageOk('Editar', 'Se editó correctamente');
       this.eventClose();
       }, (error)=>{
         console.log(error);

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +12,7 @@ import { ImagePipe } from './pipes/image.pipe';
 import { SearchPokemonComponent } from './search-pokemon/search-pokemon.component';
 import { FormsModule } from '@angular/forms';
 import { SearchPokemonPipe } from './pipes/search-pokemon.pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { SearchPokemonPipe } from './pipes/search-pokemon.pipe';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    MatPaginatorModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

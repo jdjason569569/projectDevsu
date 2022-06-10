@@ -3,6 +3,8 @@ import { OnChanges } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Pokemon } from '../models/pokemon';
 import { PokemonService } from '../services/pokemon.service';
+import { MessagesService } from '../services/messages.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-list-pokemon',
@@ -15,10 +17,13 @@ export class ListPokemonComponent implements OnInit{
   isNewPokemon: boolean = false;
   idPokemon: number = 0;
   valueFilter!: string;
+  pageSize: number = 5;
+  fromPage: number = 0;
+  toPage: number = 3;
 
 
 
-  constructor(private pokemosService: PokemonService) { }
+  constructor(private pokemosService: PokemonService, private messageService : MessagesService) { }
 
   ngOnInit(): void {
     this.getPokemons();
@@ -47,6 +52,7 @@ export class ListPokemonComponent implements OnInit{
 
   deletePokemon(id: any){
     this.pokemosService.deletePokemon(id).subscribe(()=>{
+      this.messageService.messageOk('Eliminar', 'Se elminó correctamente');
       this.getPokemons();
     }, (error)=>{
        console.log(error);
@@ -55,6 +61,11 @@ export class ListPokemonComponent implements OnInit{
 
   searchWord(value: string){
     this.valueFilter = value;
+  }
+
+  changePage(e: PageEvent){
+    this.fromPage = e.pageIndex * e.pageSize;
+    this.toPage = this.fromPage + e.pageSize;
   }
 
 

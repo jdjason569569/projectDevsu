@@ -17,7 +17,7 @@
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody *ngFor="let pokemon of listPokemon | searchPokemon:valueFilter">
+                    <tbody *ngFor="let pokemon of listPokemon | searchPokemon:valueFilter | slice:fromPage:toPage ">
                         <tr>
                             <td>{{pokemon.name}}</td>
                             <td>   <img class="img-thumbnail size-image" [src]="pokemon.image"></td>
@@ -28,6 +28,11 @@
                         </tr>
                     </tbody>
                 </table>
+                <mat-paginator [length]="listPokemon.length"
+                               [pageSize]="pageSize"
+                               (page)="changePage($event)">
+               </mat-paginator>
+
                 <h5 *ngIf="listPokemon.length === 0">No hay pokemons para mostrar</h5>
             </div>
         </div>
