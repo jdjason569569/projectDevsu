@@ -17,6 +17,10 @@ export class PokemonService {
     return this.http.get<Pokemon[]>(`${this.url}?idAuthor=1`);
   }
 
+  createPokemon(pokemon: Pokemon){
+     return this.http.post(`${this.url}?idAuthor=1`,pokemon);
+  }
+
 
 
 }

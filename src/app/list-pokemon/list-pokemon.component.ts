@@ -10,6 +10,7 @@ import { PokemonService } from '../services/pokemon.service';
 export class ListPokemonComponent implements OnInit {
 
   listPokemon: Pokemon[] = [];
+  isNewPokemon: boolean = false;
 
   constructor(private pokemosService: PokemonService) { }
 
@@ -21,7 +22,15 @@ export class ListPokemonComponent implements OnInit {
     this.pokemosService.getPokemons().subscribe((pokemons: Pokemon[])=>{
         this.listPokemon = pokemons;
         console.log(this.listPokemon);
-    })
+    });
+  }
+
+  renderCreatePokemon(){
+    this.isNewPokemon = true;
+  }
+
+  changeState(value: boolean){
+    this.isNewPokemon = value;
   }
 
 

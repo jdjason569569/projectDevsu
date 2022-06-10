@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-body text-center">
                     <span class="titulo">Listado de pokemons</span>
-                    <button routerLink="/crear-producto" class="btn btn-success float-end">Nuevo</button>
+                    <button (click)="renderCreatePokemon()" class="btn btn-success float-end">Nuevo</button>
                 </div>
                 <table *ngIf="listPokemon.length > 0" class="table" class="table table-striped mt-3">
                     <thead>
@@ -31,6 +31,8 @@
             </div>
         </div>
     </div>
+</div> 
+<div *ngIf="isNewPokemon">
+    <app-create-pokemon (cancel)="changeState($event)" ></app-create-pokemon>
 </div>
 
-<

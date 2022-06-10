@@ -1,1 +1,40 @@
-<p>create-pokemon works!</p>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5>{{title}}</h5>
+                    <form class="mt-3" [formGroup]="pokemonForm" (ngSubmit)="managePokemon()">
+                         <div class="row">
+                            <div class="col-6">
+                                <input type="text" class="form-control form-control-lg" formControlName="name" placeholder="Nombre">
+                            </div>
+                            <div class="col-6">
+                                <label for="customRange1" class="form-label">Ataque</label>
+                                <input type="range" formControlName="attack"  class="form-range" id="customRange1">
+                            </div>
+                         </div>
+                         <div class="row">
+                            <div class="col-6"> 
+                                <input type="text" formControlName="image" class="form-control form-control-lg" placeholder="Imagen"></div>
+                            <div class="col-6">
+                                <label for="customRange1" class="form-label">Defensa</label>
+                                <input type="range" formControlName="defense"  class="form-range" id="customRange1">
+                            </div>
+                         </div>
+                         <div class="row justify-content-center">
+                            <div class="col-3"> 
+                                <button type="submit" [disabled]="!pokemonForm.valid" class="btn btn-success float-end">Guardar</button>
+                             </div>
+                             <div class="col-3"> 
+                                <button (click)="eventClose()" class="btn btn-secundary float-start">Cancelar</button>
+                            </div>   
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
