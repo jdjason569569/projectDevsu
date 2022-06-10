@@ -1,0 +1,10 @@
+.container-flex{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    flex: 1 1 auto;
+}
+ .container-flex * {
+     margin: 5px;
+ }

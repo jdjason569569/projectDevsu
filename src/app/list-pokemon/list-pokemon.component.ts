@@ -5,6 +5,7 @@ import { Pokemon } from '../models/pokemon';
 import { PokemonService } from '../services/pokemon.service';
 import { MessagesService } from '../services/messages.service';
 import { PageEvent } from '@angular/material/paginator';
+import { AppMessages } from '../AppMessages';
 
 @Component({
   selector: 'app-list-pokemon',
@@ -17,7 +18,7 @@ export class ListPokemonComponent implements OnInit{
   isNewPokemon: boolean = false;
   idPokemon: number = 0;
   valueFilter!: string;
-  pageSize: number = 5;
+  pageSize: number = 3;
   fromPage: number = 0;
   toPage: number = 3;
 
@@ -52,7 +53,7 @@ export class ListPokemonComponent implements OnInit{
 
   deletePokemon(id: any){
     this.pokemosService.deletePokemon(id).subscribe(()=>{
-      this.messageService.messageOk('Eliminar', 'Se elminó correctamente');
+      this.messageService.messageOk(AppMessages.DELETE_POKEMON, AppMessages.DELETE_SUCCESSFUL);
       this.getPokemons();
     }, (error)=>{
        console.log(error);
@@ -61,9 +62,10 @@ export class ListPokemonComponent implements OnInit{
 
   searchWord(value: string){
     this.valueFilter = value;
+    this.changePage({pageIndex: 0, pageSize: 3})
   }
 
-  changePage(e: PageEvent){
+  changePage(e: any){
     this.fromPage = e.pageIndex * e.pageSize;
     this.toPage = this.fromPage + e.pageSize;
   }

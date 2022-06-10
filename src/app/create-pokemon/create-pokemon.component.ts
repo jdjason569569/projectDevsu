@@ -3,10 +3,10 @@ import { EventEmitter } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Pokemon } from '../models/pokemon';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PokemonService } from '../services/pokemon.service';
+import { PokemonService } from '../services/pokemon.service'; 
 import { Input } from '@angular/core';
 import { MessagesService } from '../services/messages.service';
+import {AppMessages} from '../AppMessages';
 
 @Component({
   selector: 'app-create-pokemon',
@@ -28,6 +28,7 @@ export class CreatePokemonComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('ngOnChanges');
     this.validateIsEdit(this.idPokemon);
   }
 
@@ -42,13 +43,13 @@ export class CreatePokemonComponent implements OnInit, OnChanges {
 
   validateIsEdit(id: number){
     if(id !== 0){
-      this.title = 'Editar pokemon';
+      this.title = AppMessages.EDIT_POKEMON;
       this.getPokemonById(id);
     }else{
         if(this.pokemonForm !== undefined){
           this.pokemonForm.reset();
         }
-        this.title = 'Nuevo pokemon';
+        this.title = AppMessages.NEW_POKEMON;
       }
   }
 
@@ -91,7 +92,7 @@ export class CreatePokemonComponent implements OnInit, OnChanges {
 
   createPokemon(pokemon : Pokemon){
     this.pokemonService.createPokemon(pokemon).subscribe(()=>{
-      this.messageService.messageOk('Agregar', 'Se creó correctamente');
+      this.messageService.messageOk(AppMessages.ADD, AppMessages.ADD_SUCCESSFUL);
     this.eventClose();
     }, (error)=>{
       console.log(error);
@@ -101,7 +102,7 @@ export class CreatePokemonComponent implements OnInit, OnChanges {
 
   updatePokemon(pokemon : Pokemon, id: number){
     this.pokemonService.updatePokemon(pokemon, id).subscribe(()=>{
-      this.messageService.messageOk('Editar', 'Se editó correctamente');
+      this.messageService.messageOk(AppMessages.EDIT_POKEMON, AppMessages.EDIT_POKEMON_SUCCESSFUL);
       this.eventClose();
       }, (error)=>{
         console.log(error);

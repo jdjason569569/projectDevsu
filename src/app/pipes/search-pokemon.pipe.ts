@@ -7,6 +7,8 @@ import { Pokemon } from '../models/pokemon';
 export class SearchPokemonPipe implements PipeTransform {
 
   transform(listPokemon: Pokemon[], value: string): Pokemon[] {
+    console.log('pipe search');
+    
     if(!value){
       return listPokemon;
     }

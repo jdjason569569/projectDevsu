@@ -2,43 +2,76 @@
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <div class="card">
-                <app-search-pokemon (searchEmit)="searchWord($event)"></app-search-pokemon>
-                <div class="card-body text-center">
-                    <span class="titulo">Listado de pokemons</span>
-                    <button (click)="renderCreatePokemon()" class="btn btn-success float-end">Nuevo</button>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <span class="titulo">Listado de Pokemons</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <app-search-pokemon (searchEmit)="searchWord($event)"></app-search-pokemon>
+                        </div>
+                        <div class="col">
+                            <a (click)="renderCreatePokemon()" type="button" class="btn btn-primary float-end" href="#createPokemon">
+                                <i class="fa fa-plus" aria-hidden="true"></i>Nuevo
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <table *ngIf="listPokemon.length > 0" class="table table-striped mt-3 border-table">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Imagen</th>
+                                        <th scope="col">Ataque</th>
+                                        <th scope="col">Defensa</th>
+                                        <th scope="col">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let pokemon of listPokemon | searchPokemon:valueFilter | slice:fromPage:toPage ">
+                                    <tr class="text-center">
+                                        <td>{{pokemon.name}}</td>
+                                        <td>   <img class="img-thumbnail size-image" [src]="pokemon.image"></td>
+                                        <td>{{pokemon.attack}}</td>
+                                        <td>{{pokemon.defense}}</td>
+                                        <td>
+                                            <i class="fa-solid fa-pen-to-square color-icon" (click)="updatePokemon(pokemon.id)"></i>
+                                            <i class="fa-solid fa-trash color-icon" (click)="deletePokemon(pokemon.id)"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <mat-paginator [length]="listPokemon.length"
+                                           [pageSize]="pageSize"
+                                           (page)="changePage($event)">
+                           </mat-paginator>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h5 *ngIf="listPokemon.length === 0">No hay pokemons para mostrar</h5>
+                        </div>
+                    </div>
                 </div>
-                <table *ngIf="listPokemon.length > 0" class="table" class="table table-striped mt-3">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Imagen</th>
-                            <th scope="col">Ataque</th>
-                            <th scope="col">Defensa</th>
-                            <th scope="col">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody *ngFor="let pokemon of listPokemon | searchPokemon:valueFilter | slice:fromPage:toPage ">
-                        <tr>
-                            <td>{{pokemon.name}}</td>
-                            <td>   <img class="img-thumbnail size-image" [src]="pokemon.image"></td>
-                            <td>{{pokemon.attack}}</td>
-                            <td>{{pokemon.defense}}</td>
-                            <td><i class="fa-solid fa-pen-to-square" (click)="updatePokemon(pokemon.id)"></i></td>
-                            <td><i class="fa-solid fa-trash" (click)="deletePokemon(pokemon.id)"></i></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <mat-paginator [length]="listPokemon.length"
-                               [pageSize]="pageSize"
-                               (page)="changePage($event)">
-               </mat-paginator>
+                
 
-                <h5 *ngIf="listPokemon.length === 0">No hay pokemons para mostrar</h5>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col" *ngIf="isNewPokemon">
+                            <app-create-pokemon id="createPokemon" [idPokemon]="idPokemon" (cancel)="changeState($event)" ></app-create-pokemon>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div> 
-<div *ngIf="isNewPokemon">
-    <app-create-pokemon  [idPokemon]="idPokemon" (cancel)="changeState($event)" ></app-create-pokemon>
-</div>
 

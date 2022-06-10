@@ -5,9 +5,6 @@ import { CreatePokemonComponent } from './create-pokemon/create-pokemon.componen
 
 const routes: Routes = [
   {path: '', component: ListPokemonComponent},
-  {path: 'create', component: CreatePokemonComponent},
-  {path: 'create/:id', component: CreatePokemonComponent},
-
   {path: '**', component: ListPokemonComponent}
 ];
 
