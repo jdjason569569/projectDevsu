@@ -13,7 +13,7 @@
                             <th scope="col">Imagen</th>
                             <th scope="col">Ataque</th>
                             <th scope="col">Defensa</th>
-                            <th scope="col"></th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody *ngFor="let pokemon of listPokemon;let index=index">
@@ -22,8 +22,8 @@
                             <td>   <img class="img-thumbnail size-image" [src]="pokemon.image"></td>
                             <td>{{pokemon.attack}}</td>
                             <td>{{pokemon.defense}}</td>
-                            <td><i class="fa-solid fa-pen-to-square"></i></td>
-                            <td><i class="fa-solid fa-trash"></i></td>
+                            <td><i class="fa-solid fa-pen-to-square" (click)="updatePokemon(pokemon.id)"></i></td>
+                            <td><i class="fa-solid fa-trash" (click)="deletePokemon(pokemon.id)"></i></td>
                         </tr>
                     </tbody>
                 </table>
@@ -33,6 +33,6 @@
     </div>
 </div> 
 <div *ngIf="isNewPokemon">
-    <app-create-pokemon (cancel)="changeState($event)" ></app-create-pokemon>
+    <app-create-pokemon  [idPokemon]="idPokemon" (cancel)="changeState($event)" ></app-create-pokemon>
 </div>
 

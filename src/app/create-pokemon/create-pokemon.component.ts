@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Pokemon } from '../models/pokemon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PokemonService } from '../services/pokemon.service';
+import { Input } from '@angular/core';
 
 @Component({
   selector: 'app-create-pokemon',
@@ -13,33 +14,46 @@ import { PokemonService } from '../services/pokemon.service';
 })
 export class CreatePokemonComponent implements OnInit {
 
-  title = 'Nuevo Pokemon';
+  title!: string;
   pokemonForm!: FormGroup;
-  id!: any;
+  @Input() idPokemon!: number;
   @Output() cancel: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private fb: FormBuilder, private router: Router, 
-    private activateRoute: ActivatedRoute, private pokemonService: PokemonService) { 
+  constructor(private fb: FormBuilder, private pokemonService: PokemonService) { 
+
+     
 
     this.pokemonForm = this.fb.group({
       name: ['',  Validators.required],
       image: ['',  Validators.required],
-      attack: [''],
-      defense: [''],
+      attack: [0],
+      defense: [0],
     });
    }
   
 
   ngOnInit(): void {
-    this.id = this.activateRoute.snapshot.paramMap.get('id');
-    this.validateIsEdit(this.id);
+    this.validateIsEdit(this.idPokemon);
   }
 
-  validateIsEdit(id: any){
-    if(id){
+  validateIsEdit(id: number){
+    if(id !== 0){
       this.title = 'Editar pokemon';
-      //this.obtenerPokemon(id);
+      this.getPokemonById(id);
+      }else{
+        this.title = 'Nuevo pokemon';
       }
+  }
+
+  getPokemonById(id: number){
+      this.pokemonService.getPokemonById(id).subscribe((pokemon:Pokemon) =>{
+         this.pokemonForm.setValue({
+           name : pokemon.name,
+           image : pokemon.image,
+           defense : pokemon.defense,
+           attack : pokemon.attack
+         })
+      });
   }
 
   /**
@@ -47,15 +61,12 @@ export class CreatePokemonComponent implements OnInit {
    */
   managePokemon(){
     const pokemon = this.buildPokemon();
-    if(!this.id){
+    if(this.idPokemon === 0){
        this.createPokemon(pokemon);
     }else{
-
+      this.updatePokemon(pokemon , this.idPokemon);
     }
-
   }
-
-
 
 /**
  * 
@@ -67,7 +78,7 @@ export class CreatePokemonComponent implements OnInit {
       'image' : this.pokemonForm.get('image')!.value,
       'defense' : this.pokemonForm.get('defense')!.value,
       'attack' : this.pokemonForm.get('attack')!.value,
-      'type' : 'other',
+      'type' : 'normal',
       'idAuthor' : 1,
       'hp' : 10
     }
@@ -83,6 +94,15 @@ export class CreatePokemonComponent implements OnInit {
     this.pokemonForm.reset();
   }
 
+  updatePokemon(pokemon : Pokemon, id: number){
+    this.pokemonService.updatePokemon(pokemon, id).subscribe(()=>{
+      this.eventClose();
+      }, (error)=>{
+        console.log(error);
+      });
+      this.pokemonForm.reset();
+    }
+  
   /**
    * Permite cerrar el div que corresponde a la creacion o edicion del pokemon
    */
