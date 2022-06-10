@@ -1,4 +1,4 @@
-import { Output } from '@angular/core';
+import { Output, OnChanges, SimpleChanges } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -12,35 +12,41 @@ import { Input } from '@angular/core';
   templateUrl: './create-pokemon.component.html',
   styleUrls: ['./create-pokemon.component.css']
 })
-export class CreatePokemonComponent implements OnInit {
+export class CreatePokemonComponent implements OnInit, OnChanges {
 
   title!: string;
   pokemonForm!: FormGroup;
   @Input() idPokemon!: number;
   @Output() cancel: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private fb: FormBuilder, private pokemonService: PokemonService) { 
+  constructor(private fb: FormBuilder, private pokemonService: PokemonService) { }
+  
 
-     
+  ngOnInit(): void {
+   this.buildForm();
+  }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.validateIsEdit(this.idPokemon);
+  }
+
+  buildForm(){
     this.pokemonForm = this.fb.group({
       name: ['',  Validators.required],
       image: ['',  Validators.required],
       attack: [0],
       defense: [0],
     });
-   }
-  
-
-  ngOnInit(): void {
-    this.validateIsEdit(this.idPokemon);
   }
 
   validateIsEdit(id: number){
     if(id !== 0){
       this.title = 'Editar pokemon';
       this.getPokemonById(id);
-      }else{
+    }else{
+        if(this.pokemonForm !== undefined){
+          this.pokemonForm.reset();
+        }
         this.title = 'Nuevo pokemon';
       }
   }
@@ -61,16 +67,13 @@ export class CreatePokemonComponent implements OnInit {
    */
   managePokemon(){
     const pokemon = this.buildPokemon();
-    if(this.idPokemon === 0){
-       this.createPokemon(pokemon);
-    }else{
-      this.updatePokemon(pokemon , this.idPokemon);
-    }
+    this.idPokemon === 0 ? this.createPokemon(pokemon) :  this.updatePokemon(pokemon , this.idPokemon);
   }
 
 /**
  * 
- * @returns Construye un objeto pokemon a partir de los valores del formulario reactivo
+ * @returns Construye un objeto pokemon a 
+ * partir de los valores del formulario reactivo
  */
    buildPokemon = () => {
     let pokemon : Pokemon = {
@@ -104,7 +107,8 @@ export class CreatePokemonComponent implements OnInit {
     }
   
   /**
-   * Permite cerrar el div que corresponde a la creacion o edicion del pokemon
+   * Permite cerrar el div que corresponde 
+   * a la creacion o edicion del pokemon
    */
   eventClose(){
     this.cancel.emit(false);

@@ -2,6 +2,7 @@
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <div class="card">
+                <app-search-pokemon (searchEmit)="searchWord($event)"></app-search-pokemon>
                 <div class="card-body text-center">
                     <span class="titulo">Listado de pokemons</span>
                     <button (click)="renderCreatePokemon()" class="btn btn-success float-end">Nuevo</button>
@@ -16,7 +17,7 @@
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody *ngFor="let pokemon of listPokemon;let index=index">
+                    <tbody *ngFor="let pokemon of listPokemon | searchPokemon:valueFilter">
                         <tr>
                             <td>{{pokemon.name}}</td>
                             <td>   <img class="img-thumbnail size-image" [src]="pokemon.image"></td>

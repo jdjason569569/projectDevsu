@@ -14,6 +14,7 @@ export class ListPokemonComponent implements OnInit{
   listPokemon: Pokemon[] = [];
   isNewPokemon: boolean = false;
   idPokemon: number = 0;
+  valueFilter!: string;
 
 
 
@@ -36,6 +37,7 @@ export class ListPokemonComponent implements OnInit{
 
   changeState(value: boolean){
     this.isNewPokemon = value;
+    this.getPokemons();
   }
 
   updatePokemon(id: any){
@@ -49,6 +51,10 @@ export class ListPokemonComponent implements OnInit{
     }, (error)=>{
        console.log(error);
     });
+  }
+
+  searchWord(value: string){
+    this.valueFilter = value;
   }
 
 
