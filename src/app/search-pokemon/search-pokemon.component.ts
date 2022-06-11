@@ -19,7 +19,7 @@ export class SearchPokemonComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchEmitMethod();
-    console.log('component search');
+    //console.log('component search');
   }
 
   searchEmitMethod(){

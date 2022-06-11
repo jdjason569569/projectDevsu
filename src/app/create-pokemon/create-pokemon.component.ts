@@ -15,7 +15,7 @@ import {AppMessages} from '../AppMessages';
 })
 export class CreatePokemonComponent implements OnInit, OnChanges {
 
-  title!: string;
+  title: string = '';
   pokemonForm!: FormGroup;
   @Input() idPokemon!: number;
   @Output() cancel: EventEmitter<boolean> = new EventEmitter();
@@ -28,7 +28,7 @@ export class CreatePokemonComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('ngOnChanges');
+    //console.log('ngOnChanges');
     this.validateIsEdit(this.idPokemon);
   }
 
