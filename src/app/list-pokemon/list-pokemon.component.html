@@ -45,6 +45,7 @@
                             </table>
                             <mat-paginator [length]="listPokemon.length"
                                            [pageSize]="pageSize"
+                                           aria-label="Select page"
                                            (page)="changePage($event)">
                            </mat-paginator>
                         </div>
@@ -55,8 +56,6 @@
                         </div>
                     </div>
                 </div>
-                
-
             </div>
         </div>
     </div>
